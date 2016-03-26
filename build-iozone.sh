@@ -43,15 +43,12 @@ acbuild copy startiozone.sh /startiozone.sh
 # Update ubuntu
 acbuild --debug run -- apt-get update
 
-# Install iozone
+# Download and build iozone
 acbuild --debug run -- apt-get -y install make gcc build-essential
 acbuild --debug run -- wget http://www.iozone.org/src/current/iozone3_434.tar
 acbuild --debug run -- tar xvf iozone3_434.tar
 acbuild --debug run -- make -C iozone3_434/src/current linux
 acbuild --debug run -- cp iozone3_434/src/current/iozone /usr/bin
-
-# Add a mount point for files to serve
-acbuild --debug mount add results /tmp/iozone/
 
 # Run iozone 
 #  https://communities.bmc.com/docs/DOC-10204
