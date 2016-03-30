@@ -3,15 +3,33 @@
 
  [rkt](https://coreos.com/rkt) [iOzone](http://www.iozone.org) container, built using [acbuild](https://github.com/appc/acbuild)
 
- iOzone is a filesystem benchmark tool. The goal of this mini-project is to create a signed acbuild container and run it by rkt. 
+## Rationale
+ iOzone is a filesystem benchmark tool. The goal of this mini-project is to create a signed and verified acbuild container that can be run it by rkt. System administrator can easily run rkt-iozone  on any machineby using just one command. 
 
-Dependencies
-rkt-iozone requires rkt(v1.1.0 and up) and acbuild.
+## Installation
 
-Build
+### Dependencies
+rkt-iozone requires rkt(v1.1.0 & up) and acbuild.
 
-Run
+### Build
+1. Grab the source code for `rkt-iozone` by `git clone`ing the source repository:
+   ```
+   cd ~
+   git clone https://github.com/ivancherepov/rkt-iozone
+   ```
 
-Compare EC2 and GCE
+2. Run the `build-iozone` script from the root source repository directory:
+   ```
+   ./build-iozone
+   ```
 
-Notes 
+3. A `iozone-ubuntu.aci` container will be created that contains the `rkt-iozone`. Run it:
+   ```
+   sudo ./rkt run --interactive iozone-ubuntu.aci
+   ```
+## Notes
+
+
+## Compare EC2 and GCE
+
+ 
