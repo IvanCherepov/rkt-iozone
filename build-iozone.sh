@@ -32,23 +32,25 @@ acbuildEnd() {
 trap acbuildEnd EXIT
 
 # Name the ACI
-acbuild --debug set-name ivanc/iozone-ubuntu
+acbuild --debug set-name ivanc/iozone-ubuntus
 
 # Based on ubuntu
 acbuild --debug dep add quay.io/sameersbn/ubuntu
 
 # Copy start script 
-acbuild copy startiozone.sh /startiozone.sh
+acbuild copy run-iozone.sh /run-iozone.sh
 
 # Update ubuntu
 acbuild --debug run -- apt-get update
 
 # Download and build iozone
 acbuild --debug run -- apt-get -y install make gcc build-essential
-acbuild --debug run -- wget http://www.iozone.org/src/current/iozone3_434.tar
+##acbuild --debug run -- wget http://www.iozone.org/src/current/iozone3_434.tar
+acbuild --debug run -- wget  "http://iozone.org/"$(curl http://iozone.org/ | grep 'Latest tarball' | cut -c 11-37)
 acbuild --debug run -- tar xvf iozone3_434.tar
 acbuild --debug run -- make -C iozone3_434/src/current linux
 acbuild --debug run -- cp iozone3_434/src/current/iozone /usr/bin
+
 
 # Run iozone 
 #  https://communities.bmc.com/docs/DOC-10204
@@ -60,7 +62,7 @@ acbuild --debug run -- cp iozone3_434/src/current/iozone /usr/bin
 # -F         the temporary filename that should be used by the iozone during testing
 
 # acbuild --debug set-exec -- /usr/bin/iozone -R -l 5 -u 5 -r 4k -s 100m -F /home/f1 /home/f2 /home/f3 /home/f4 /home/f5 | tee -a /tmp/results.txt &
-acbuild --debug set-exec -- /startiozone.sh 
+acbuild --debug set-exec -- /run-iozone.sh 
 
 # Save the ACI
 acbuild --debug label add version 0.0.5
