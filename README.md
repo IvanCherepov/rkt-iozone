@@ -11,20 +11,32 @@
 ### Dependencies
 rkt-iozone requires rkt(v1.1.0 & up) and acbuild.
 
+### Prior the build
+Modify running script run-iozone.sh according to your needs. Current options are "automatic mode", "optimized test" and "use your own argumensts". You can use -h for help. 
+
 ### Build
-1. Grab the source code for `rkt-iozone` by `git clone`ing the source repository:
+1. Get the source code for `rkt-iozone` by `git clone`-ing the source repository:
    ```
    git clone https://github.com/ivancherepov/rkt-iozone
    ```
 
 2. Run the `build-iozone` script from the root source repository directory:
    ```
-   ./build-iozone
+   sh build-iozone.sh
    ```
 
-3. A `iozone-ubuntu.aci` container will be created that contains the `rkt-iozone`. Run it:
+3. Make an armored detached signature:
    ```
-   sudo ./rkt run --interactive iozone-ubuntu.aci
+   gpg --armor --output iozone-ubuntu.aci.asc --detach-sign iozone-ubuntu.aci
+   ```
+
+4. Make an armored detached signature:
+   ```
+   gpg --armor --output iozone-ubuntu.aci.asc --detach-sign iozone-ubuntu.aci
+
+5. `iozone-ubuntu.aci` container will be created that contains the `rkt-iozone`. Run it:
+   ```
+   rkt run --interactive iozone-ubuntu.aci
    ```
 ## Notes
 
