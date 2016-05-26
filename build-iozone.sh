@@ -44,17 +44,20 @@ acbuild --debug run -- apt-get update
 
 # Download and build iozone
 acbuild --debug run -- apt-get -y install make gcc build-essential
-##acbuild --debug run -- wget http://www.iozone.org/src/current/iozone3_434.tar
-acbuild --debug run -- wget  "http://iozone.org/"$(curl http://iozone.org/ | grep 'Latest tarball' | cut -c 11-37)
-acbuild --debug run -- tar xvf iozone3_434.tar
-acbuild --debug run -- make -C iozone3_434/src/current linux
-acbuild --debug run -- cp iozone3_434/src/current/iozone /usr/bin
 
-# acbuild --debug set-exec -- /usr/bin/iozone -R -l 5 -u 5 -r 4k -s 100m -F /home/f1 /home/f2 /home/f3 /home/f4 /home/f5 | tee -a /tmp/results.txt &
+acbuild --debug run -- wget  http://iozone.org/src/current/"$(curl http://iozone.org/ | grep 'Latest tarball' | cut -c 23-37)"
+acbuild --debug run -- tar xvf iozone*.tar && rm iozone*.tar
+acbuild --debug run -- make -C "$(curl http://iozone.org/ | grep 'Latest tarball' | cut -c 23-33)"/src/current linux
+acbuild --debug run -- cp "$(curl http://iozone.org/ | grep 'Latest tarball' | cut -c 23-33
+)"/src/current/iozone /usr/bin
+
+# Cleaning
+acbuild --debug run -- apt-get -y --purge remove make gcc build-essential
+
 acbuild --debug set-exec -- /run-iozone.sh 
 
 # Save the ACI
-acbuild --debug label add version 0.0.5
+acbuild --debug label add version 0.1.0
 acbuild --debug label add arch amd64
 acbuild --debug label add os linux
 acbuild --debug annotation add authors "Ivan"
